@@ -1,0 +1,82 @@
+---
+title: "Tarea Grupal Numero 1"
+author: "Melany Chaves, Fabricio Gomez, Rafael Chaves"
+date: "2023-04-05"
+output: 
+  html_document: 
+    toc: yes
+runtime: shiny
+---
+
+**¿Qué es la librería Shiny de R?**
+
+Shiny es una librería de R que permite la creación de aplicaciones web interactivas usando el lenguaje de programación R. 
+Se pueden crear interfaces de usuario que permiten a los usuarios de las mismas interactuar con los datos y los gráficos generados por R. Shiny se logra integrar fácilmente con otros paquetes de R, como ggplot2 y dplyr, lo que nos permite crear aplicaciones web interactivas basadas en análisis y en visualizaciones de datos.
+
+**Ejemplos de uso para las librerías Shiny?**
+
+Entre sus muchos usos, podemos citar varios ejemplos como:
+1.	Visualización de datos: las aplicaciones web de Shiny nos permiten crear dashbords o informes interactivos.
+2.	Análisis de datos en línea: Nos permite crear aplicaciones que permitan a los usuarios cargar y analizar datos en línea.
+3.	Presentación de resultados: nos permite compartir los resultados de manera interactiva los resultados de nuestro análisis de datos.
+
+**¿Como se utilizan las librerías Shiny de R?**
+
+Debemos de descargar la librería de Shinny en R, usando el siguiente código en Rstudio.
+
+**\_install.packages("shiny")\_ **
+
+Una vez descargada la librería se tiene que definir una interfaz de usuario **(UI)** y definir las acciones que podrán hacer los usuarios al interactuar con la aplicación. La interfaz de usuario se define usando elementos HTML y widgets de Shiny como botones, cuadros de texto, entre otros y las acciones que podrán realizar los usuarios definen usando la función **server** entre estas acciones están cargar datos, enviar resultados a la interfaz para su visualización, entre otros. 
+
+Como paso final, ejecutamos la función **shinyapp** la cual une la interfaz de usuario con la parte lógica de la aplicación creando una web interactiva. 
+
+
+Aca tenemos un ejemplo usando la informacion de Iris
+```{r}
+
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Iris Database"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons("p", "Select column of iris dataset:",
+                   list("Sepal.Length"='a', "Sepal.Width"='b', "Petal.Length"='c',
+                        "Petal.Width"='d')),
+      sliderInput("bins",
+                  "Number of bins:",
+                  min = 1,
+                  max = 50,
+                  value = 30)
+    ),
+    mainPanel(
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server <- function (input, output){
+  output$distPlot <- renderPlot({
+    if(input$p=='a'){
+      i <- 1
+    }
+    if(input$p=='b'){
+      i <- 2
+    }
+
+    if(input$p=='c'){
+      i <- 3
+    }
+    if(input$p=='d'){
+      i <- 4
+    }
+    x <- iris[, i]
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    hist(x, breaks = bins, col = 'skyblue', border = 'white')
+  })
+}
+
+shinyApp(ui, server)
+
+```
+

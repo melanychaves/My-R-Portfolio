@@ -1,0 +1,98 @@
+---
+title: "Trabajo_Grupal"
+author: "Melany Chaves, Fabricio Gomez, Rafael Chaves"
+date: "2023-04-14"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# ***En que consiste ggplot2***
+
+Es un paquete de R dedicado a la visualización de data, nos permite
+crear gráficos de alta calidad. Forma parte del conjunto de librerías
+llamado tidyverse *ggplot2* se caracteriza por su facilidad de uso y la
+capacidad de crear gráficos complejos con relativamente pocas líneas de
+código.
+
+## ***Crear un gráfico con ggplot2***
+
+Se usan estos elementos:
+
+1.  Un data frame que contiene los datos que se quieren visualizar.
+2.  Los aesthetics, es decir, una lista de relaciones entre las
+    variables del fichero de datos y determinados aspectos del gráfico
+    (como por ejemplo coordenadas, formas o colores).
+3.  Los geoms, que especifican los elementos geométricos (puntos,
+    líneas, círculos, etc) que se van a representar.
+
+El comando ggplot se usa para generar el sistema de coordenadas (por
+defecto, rectangulares) y posteriormente vamos añadiendo los geoms con
+sus correspondientes aesthetics. En principio los aesthetics se pueden
+asignar individualmente para cada geom.
+
+**Ejemplo:**
+
+ggplot(data = 'nombre del fichero de datos') +
+geom_nombre1(aes(aesthetics1=var1, aesthetics2=var2, ...)) +
+geom_nombre2(...)
+
+Para iniciar a crear un grafico, activamos la libreria y leemos los
+datos:
+
+library(tidyverse) notas \<-
+read.table('<http://verso.mat.uam.es/~joser.berrendero/datos/notas.txt>',
+sep = ' ', dec =',', header=TRUE) head(notas) Agregamos el ggplot:
+ggplot(data = notas)
+
+Empezamos a construir la información con geoms:
+
+**Importante: los datos a representar siempre tienen que formar parte de
+un data frame**
+
+ggplot(data = notas) + geom_point(aes(x = nota09, y = nota10))
+
+Podemos especificar sí las columnas deben ser de algún color, tamaño,
+etc con el argumento aesthetics **(aes)**
+
+ggplot(data = notas) + geom_point(aes(x = nota09, y = nota10), col =
+'darkblue', \# color de los puntos size = 3, \# tamaño de los puntos
+alpha = 1/5) \# nivel de transparencia de los puntos
+
+### ***Tipos de geom***
+
+Existen diferentes tipos de gráficos:
+
+1.geom_point: puntos 2.geom_lines: lineas 3.geom_bar: barras
+4.geom_histogram: histogramas
+
+```{r}
+library(ggplot2)
+data(iris)
+
+# Graficar histograma de cada variable numérica
+ggplot(iris, aes(x = Sepal.Length)) +
+  geom_histogram(fill = "steelblue", color = "white") +
+  labs(title = "Histograma de Sepal.Length",
+       x = "Sepal.Length", y = "Frecuencia") +
+  theme_minimal()
+
+ggplot(iris, aes(x = Sepal.Width)) +
+  geom_histogram(fill = "steelblue", color = "white") +
+  labs(title = "Histograma de Sepal.Width",
+       x = "Sepal.Width", y = "Frecuencia") +
+  theme_minimal()
+
+ggplot(iris, aes(x = Petal.Length)) +
+  geom_histogram(fill = "steelblue", color = "white") +
+  labs(title = "Histograma de Petal.Length",
+       x = "Petal.Length", y = "Frecuencia") +
+  theme_minimal()
+
+ggplot(iris, aes(x = Petal.Width)) +
+  geom_histogram(fill = "steelblue", color = "white") +
+  labs(title = "Histograma de Petal.Width",
+       x = "Petal.Width", y = "Frecuencia") +
+  theme_minimal()
+```
